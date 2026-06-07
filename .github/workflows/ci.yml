@@ -22,6 +22,9 @@ jobs:
           test -f README.md
           test -f LICENSE
 
+      - name: Run accessibility regression tests
+        run: node --test tests/*.test.mjs
+
       - name: Start static server
         run: python3 -m http.server 4173 --bind 127.0.0.1 >/tmp/designshelf.log 2>&1 &
 
@@ -35,4 +38,3 @@ jobs:
           done
           cat /tmp/designshelf.log
           exit 1
-

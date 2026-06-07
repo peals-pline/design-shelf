@@ -1,7 +1,13 @@
 /* =========================================================================
    DesignShelf — UI primitives
    ========================================================================= */
-const { useState: uS, useEffect: uE, useRef: uR, useCallback: uC } = React;
+const {
+  useState: uS,
+  useEffect: uE,
+  useRef: uR,
+  useCallback: uC,
+  useId: uI,
+} = React;
 
 // ---- Icon: renders real Lucide paths ---------------------------------------
 const SVG_ATTR_MAP = { "stroke-width": "strokeWidth", "stroke-linecap": "strokeLinecap", "stroke-linejoin": "strokeLinejoin", "stroke-dasharray": "strokeDasharray", "fill-rule": "fillRule", "clip-rule": "clipRule", "stroke-miterlimit": "strokeMiterlimit" };
@@ -101,11 +107,38 @@ function Drawer({ onClose, children }) {
 
 // ---- Form Field ------------------------------------------------------------
 function Field({ label, required, hint, error, children }) {
+  const generatedId = uI().replace(/:/g, "");
+  const controlId = `field-${generatedId}`;
+  const messageId = `${controlId}-message`;
+  const child = React.Children.count(children) === 1
+    ? React.Children.only(children)
+    : children;
+  const isNativeControl = React.isValidElement(child)
+    && ["input", "select", "textarea"].includes(child.type);
+  const resolvedControlId = isNativeControl
+    ? (child.props.id || controlId)
+    : undefined;
+  const control = isNativeControl
+    ? React.cloneElement(child, {
+      id: resolvedControlId,
+      "aria-describedby": hint || error ? messageId : undefined,
+      "aria-invalid": error ? true : undefined,
+    })
+    : child;
+
   return (
     <div className="field">
-      {label && <label>{label}{required && <span className="req">*</span>}</label>}
-      {children}
-      {error ? <span className="err-text">{error}</span> : hint ? <span className="hint">{hint}</span> : null}
+      {label && (
+        <label htmlFor={resolvedControlId}>
+          {label}{required && <span className="req">*</span>}
+        </label>
+      )}
+      {control}
+      {error ? (
+        <span id={messageId} className="err-text">{error}</span>
+      ) : hint ? (
+        <span id={messageId} className="hint">{hint}</span>
+      ) : null}
     </div>
   );
 }
