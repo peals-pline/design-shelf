@@ -600,12 +600,101 @@ body.dense .font-glyph { font-size: 38px; }
   .lib-grid { grid-template-columns: minmax(0, 1fr); }
   .page-head { align-items: flex-start; }
   .page-head > .btn { width: 100%; }
-  .hero { flex-direction: column; align-items: flex-start; }
-  .hero { padding: 24px 20px; gap: 20px; }
+  .hero { flex-direction: row; align-items: center; }
+  .hero { padding: 24px; gap: 20px; }
+  .hero > div:first-child {
+    min-width: 0;
+    flex: 1;
+  }
   .hero h1 { font-size: 22px; }
   .hero-actions { flex-wrap: wrap; width: 100%; }
   .hero-actions .btn { flex: 1 1 160px; }
-  .stat-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .stat-grid { grid-template-columns: repeat(auto-fit, minmax(132px, 1fr)); }
+  .stat {
+    padding: 14px;
+    gap: 9px;
+  }
+  .stat-num {
+    font-size: 24px;
+  }
   .drawer { width: 100vw; }
 }
+
+@media (max-width: 640px) {
+  .page { padding: 18px 12px 48px; }
+  .hero {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 18px;
+    gap: 16px;
+    margin-bottom: 18px;
+  }
+  .hero h1 {
+    font-size: 20px;
+    line-height: 1.18;
+  }
+  .hero p {
+    font-size: 13px;
+    line-height: 1.48;
+  }
+  .hero-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+    margin-top: 14px;
+  }
+  .hero-actions .btn {
+    width: 100%;
+    height: 36px;
+  }
+  .hero-count {
+    display: flex;
+    width: 100%;
+    align-items: baseline;
+    justify-content: space-between;
+    text-align: left !important;
+    padding-top: 4px;
+    border-top: 1px solid var(--border);
+  }
+  .hero-big {
+    font-size: 38px;
+  }
+  .hero-count-label {
+    margin-top: 0 !important;
+  }
+  .stat-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin-bottom: 22px;
+  }
+  .stat {
+    padding: 12px;
+    gap: 8px;
+  }
+  .stat-ico {
+    width: 26px;
+    height: 26px;
+    border-radius: 7px;
+  }
+  .stat-ico .lucide {
+    width: 14px;
+    height: 14px;
+  }
+  .stat-num {
+    font-size: 22px;
+  }
+  .stat-label {
+    font-size: 11.5px;
+    line-height: 1.25;
+  }
+  .section-head {
+    align-items: flex-start;
+    gap: 10px;
+    margin: 24px 0 12px;
+  }
+  .section-head h2 {
+    font-size: 15px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
