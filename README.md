@@ -11,10 +11,13 @@ snippets, design systems, inspiration, and project kits in one searchable
 workspace. No account is required, and the current MVP stores everything in
 your browser.
 
+[Open the live demo](https://peals-pline.github.io/design-shelf/)
+
 ![DesignShelf dashboard](docs/screenshots/dashboard.png)
 
 > **Project status:** usable MVP, actively being improved. The current release
-> is intentionally lightweight and runs as a static browser application.
+> is intentionally lightweight and runs as a static browser application. The
+> hosted demo uses the same local-only browser storage as a local installation.
 
 ## Why DesignShelf?
 
