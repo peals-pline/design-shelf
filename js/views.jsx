@@ -178,9 +178,9 @@ function Dashboard({ app }) {
             <Button icon="Sparkles" onClick={() => app.navigate("kit")}>Build a project kit</Button>
           </div>
         </div>
-        <div style={{ textAlign: "right", position: "relative", zIndex: 1 }}>
+        <div className="hero-count" style={{ textAlign: "right", position: "relative", zIndex: 1 }}>
           <div className="hero-big">{String(total).padStart(2, "0")}</div>
-          <div className="eyebrow" style={{ marginTop: 6 }}>items saved</div>
+          <div className="eyebrow hero-count-label" style={{ marginTop: 6 }}>items saved</div>
         </div>
       </div>
 

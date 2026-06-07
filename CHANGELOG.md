@@ -14,6 +14,13 @@ and this project intends to follow semantic versioning as it matures.
 - Safer JSON import preview and validation
 - Automated tests for domain and export logic
 
+## [0.1.2] - 2026-06-07
+
+### Changed
+
+- Tightened the dashboard hero, action area, and metric cards on tablet and
+  mobile widths so the first screen feels intentional instead of stretched.
+
 ## [0.1.1] - 2026-06-07
 
 ### Changed
