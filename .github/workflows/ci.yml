@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  static-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check required files
+        run: |
+          test -f index.html
+          test -f styles.css
+          test -f js/app.jsx
+          test -f README.md
+          test -f LICENSE
+
+      - name: Start static server
+        run: python3 -m http.server 4173 --bind 127.0.0.1 >/tmp/designshelf.log 2>&1 &
+
+      - name: Smoke test application
+        run: |
+          for attempt in {1..10}; do
+            if curl --fail --silent http://127.0.0.1:4173/ | grep -q "DesignShelf"; then
+              exit 0
+            fi
+            sleep 1
+          done
+          cat /tmp/designshelf.log
+          exit 1
+
