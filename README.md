@@ -1,5 +1,9 @@
 # DesignShelf
 
+[![CI](https://github.com/peals-pline/design-shelf/actions/workflows/ci.yml/badge.svg)](https://github.com/peals-pline/design-shelf/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/peals-pline/design-shelf)](https://github.com/peals-pline/design-shelf/releases)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+
 **A private, local-first design library for UX/UI designers.**
 
 DesignShelf helps designers collect fonts, color palettes, UI references, copy
@@ -101,6 +105,10 @@ resource they add to their local library.
 
 Issues and focused pull requests are welcome. Please read
 [CONTRIBUTING.md](CONTRIBUTING.md) before proposing a larger change.
+
+## Maintainer workflow
+
+DesignShelf is maintained through public [issues](https://github.com/peals-pline/design-shelf/issues), focused pull requests, CI checks, and versioned [releases](https://github.com/peals-pline/design-shelf/releases). Near-term decisions and migration work remain visible in [ROADMAP.md](ROADMAP.md) and [CHANGELOG.md](CHANGELOG.md).
 
 ## Security
 
