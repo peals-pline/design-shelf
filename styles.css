@@ -560,21 +560,38 @@ body.dense .font-glyph { font-size: 38px; }
 @media (max-width: 920px) {
   .app { grid-template-columns: 1fr; }
   .sidebar { display: none; }
-  .topbar { padding: 12px 14px; gap: 8px; flex-wrap: wrap; }
-  .search { max-width: none; min-width: 0; flex: 1 1 calc(100% - 116px); }
+  .topbar {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    padding: 12px 14px;
+    gap: 8px;
+  }
+  .search {
+    grid-column: 1;
+    max-width: none;
+    min-width: 0;
+    width: 100%;
+  }
   .kbd { display: none; }
   .topbar-spacer { display: none; }
-  .topbar-actions { margin-left: auto; }
+  .topbar-actions {
+    grid-column: 2;
+    margin-left: 0;
+    justify-self: end;
+  }
   .topbar-actions .btn.ghost { display: none; }
   .mobile-nav {
     display: inline-flex; align-items: center; gap: 7px;
+    grid-column: 1 / -1;
+    width: 100%;
     min-width: 0; flex: 1 1 100%;
     height: 36px; padding: 0 10px;
     border: 1px solid var(--border); border-radius: var(--radius-sm);
     background: var(--surface); color: var(--text-2);
   }
   .mobile-nav select {
-    appearance: none; min-width: 0; flex: 1;
+    appearance: none; min-width: 0; flex: 1; width: 100%;
     border: 0; background: transparent; color: var(--text);
     font-size: 13px; font-weight: 500;
   }

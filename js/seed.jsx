@@ -94,7 +94,7 @@ function buildSeed() {
 
     // ---- UI references
     f({ id: "seed-r1", type: "reference", title: "Command menu — keyboard-first nav", _d: 3, favorite: true,
-      description: "A ⌘K palette that lets power users jump anywhere without the mouse.",
+      description: "A Ctrl+K palette that lets power users jump anywhere without the mouse.",
       category: "navigation", platform: "web", tags: ["cmdk", "power-user", "search"],
       sourceUrl: "https://linear.app", whyItWorks: "Reduces clicks to near-zero for repeat tasks, and quietly teaches shortcuts by showing them inline next to each action." }),
     f({ id: "seed-r2", type: "reference", title: "Progressive onboarding checklist", _d: 7,

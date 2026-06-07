@@ -248,7 +248,7 @@ function App() {
   aE(() => { try { localStorage.setItem(D.LS_PREFS, JSON.stringify({ ...prefs, view, sort })); } catch (e) {} }, [prefs, view, sort]);
   aE(() => { document.body.classList.toggle("dense", prefs.density === "cozy"); }, [prefs.density]);
 
-  // keyboard: ⌘K / focus search, esc
+  // keyboard: Ctrl/Cmd+K / focus search, esc
   aE(() => {
     const onKey = (e) => {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") { e.preventDefault(); setCmdOpen((v) => !v); }
@@ -297,7 +297,7 @@ function App() {
           <div className="search">
             <D.Icon name="Search" />
             <input id="topsearch" value={query} placeholder="Search your shelf…" onChange={(e) => setQuery(e.target.value)} />
-            <button className="kbd" onClick={() => setCmdOpen(true)} title="Command palette" style={{ cursor: "pointer" }}>⌘K</button>
+            <button className="kbd" onClick={() => setCmdOpen(true)} title="Command palette" style={{ cursor: "pointer" }}>Ctrl K</button>
           </div>
           <div className="mobile-nav">
             <D.Icon name="Menu" />
