@@ -88,7 +88,12 @@ function ItemForm({ presetType, initial, allItems, onSave, onClose }) {
   const submit = () => {
     const errs = window.DS.validateItem(draft);
     setErrors(errs);
-    if (Object.keys(errs).length) return;
+    if (Object.keys(errs).length) {
+      requestAnimationFrame(() => {
+        document.querySelector(".modal .invalid")?.focus();
+      });
+      return;
+    }
     onSave(draft);
   };
 

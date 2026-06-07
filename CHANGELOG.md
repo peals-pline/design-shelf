@@ -10,9 +10,16 @@ and this project intends to follow semantic versioning as it matures.
 ### Planned
 
 - Narrow-screen layout improvements
-- Accessibility improvements for forms and focus management
 - Safer JSON import preview and validation
 - Automated tests for domain and export logic
+
+## [0.1.3] - 2026-06-07
+
+### Changed
+
+- Connected native form controls to their visible labels and helper messages.
+- Added accessible invalid states and moved focus to the first invalid field.
+- Added accessibility regression coverage to CI.
 
 ## [0.1.2] - 2026-06-07
 
