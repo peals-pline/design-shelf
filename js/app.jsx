@@ -299,6 +299,16 @@ function App() {
             <input id="topsearch" value={query} placeholder="Search your shelf…" onChange={(e) => setQuery(e.target.value)} />
             <button className="kbd" onClick={() => setCmdOpen(true)} title="Command palette" style={{ cursor: "pointer" }}>⌘K</button>
           </div>
+          <div className="mobile-nav">
+            <D.Icon name="Menu" />
+            <select aria-label="Library navigation" value={favOnly ? "favorites" : view} onChange={(e) => navigate(e.target.value)}>
+              <option value="dashboard">Dashboard</option>
+              <option value="all">All items</option>
+              <option value="favorites">Favorites</option>
+              {D.TYPES.map((t) => <option key={t.key} value={t.key}>{t.plural}</option>)}
+            </select>
+            <D.Icon name="ChevronDown" />
+          </div>
           <div className="topbar-spacer" />
           <div className="topbar-actions">
             <D.Button variant="ghost" size="sm" icon={prefs.theme === "dark" ? "Sun" : "Moon"} onClick={() => setPrefs({ ...prefs, theme: prefs.theme === "dark" ? "light" : "dark" })} aria-label="Toggle theme" />
