@@ -91,7 +91,7 @@ visual language:
 
 - Improve narrow-screen layout and navigation
 - Associate form labels and fields and strengthen keyboard focus behavior
-- Add import preview, validation, and explicit merge/replace modes
+- Expand automated coverage for search, filters, validation, and exports
 - Add automated tests for search, filters, validation, and export generators
 - Introduce an IndexedDB storage adapter with a safe migration path
 - Move the runtime to Vite and TypeScript after behavior is covered by tests

@@ -128,12 +128,32 @@ function Tweaks({ prefs, setPrefs, onClose }) {
 // ---- Settings (import / export / data) -------------------------------------
 function Settings({ app, onClose }) {
   const fileRef = aR(null);
+  const [importPreview, setImportPreview] = aS(null);
+  const [importError, setImportError] = aS("");
+
   const doImport = (e) => {
     const file = e.target.files[0]; if (!file) return;
     const reader = new FileReader();
-    reader.onload = () => { try { const n = app.store.importJSON(reader.result, "merge"); D.pushToast("Imported " + n + " items", "Upload"); onClose(); } catch (err) { alert(err.message); } };
+    reader.onload = () => {
+      try {
+        setImportPreview(D.analyzeImportJSON(reader.result, app.items));
+        setImportError("");
+      } catch (err) {
+        setImportPreview(null);
+        setImportError(err.message);
+      }
+      e.target.value = "";
+    };
     reader.readAsText(file);
   };
+
+  const applyImport = (mode) => {
+    if (mode === "replace" && !confirm("Replace your entire shelf with the valid items in this backup? This cannot be undone.")) return;
+    const n = app.store.importJSON(importPreview, mode);
+    D.pushToast((mode === "replace" ? "Replaced shelf with " : "Imported ") + n + " items", "Upload");
+    onClose();
+  };
+
   return (
     <D.Modal title="Data & privacy" onClose={onClose} footer={<D.Button variant="ghost" onClick={onClose}>Close</D.Button>}>
       <div className="detail-note" style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
@@ -148,6 +168,27 @@ function Settings({ app, onClose }) {
           <input ref={fileRef} type="file" accept="application/json,.json" style={{ display: "none" }} onChange={doImport} />
         </div>
       </D.Field>
+      {importError && <div className="detail-note" role="alert" style={{ color: "oklch(0.72 0.15 25)" }}>{importError}</div>}
+      {importPreview && (
+        <div className="detail-note" aria-live="polite">
+          <strong style={{ display: "block", marginBottom: 8 }}>Backup preview</strong>
+          <div style={{ display: "flex", gap: 14, flexWrap: "wrap", color: "var(--text-2)" }}>
+            <span>{importPreview.valid.length} new</span>
+            <span>{importPreview.duplicates.length} duplicates</span>
+            <span>{importPreview.rejected.length} rejected</span>
+          </div>
+          {importPreview.rejected.length > 0 && (
+            <div style={{ marginTop: 8, fontSize: 12, color: "var(--text-3)" }}>
+              First issue: item {importPreview.rejected[0].index + 1} — {importPreview.rejected[0].reason}
+            </div>
+          )}
+          <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 12 }}>
+            <D.Button icon="Upload" onClick={() => applyImport("merge")} disabled={!importPreview.valid.length}>Merge new items</D.Button>
+            <D.Button className="danger" icon="RefreshCw" onClick={() => applyImport("replace")} disabled={!importPreview.valid.length && !importPreview.duplicates.length}>Replace shelf</D.Button>
+            <D.Button variant="ghost" onClick={() => setImportPreview(null)}>Cancel</D.Button>
+          </div>
+        </div>
+      )}
       <div className="divider" />
       <D.Field label="Danger zone">
         <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
