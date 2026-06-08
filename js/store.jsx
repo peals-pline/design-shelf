@@ -66,18 +66,11 @@ function useStore() {
   }, []);
 
   const importJSON = useCallback((json, mode = "merge") => {
-    let incoming;
-    try { incoming = typeof json === "string" ? JSON.parse(json) : json; } catch (e) { throw new Error("That file isn't valid JSON."); }
-    const arr = Array.isArray(incoming) ? incoming : incoming.items;
-    if (!Array.isArray(arr)) throw new Error("No items array found in that backup.");
-    setItems((prev) => {
-      if (mode === "replace") return arr;
-      const ids = new Set(prev.map((p) => p.id));
-      const fresh = arr.filter((a) => !ids.has(a.id));
-      return [...fresh, ...prev];
-    });
-    return arr.length;
-  }, []);
+    const preview = json?.valid ? json : window.DS.analyzeImportJSON(json, items);
+    const imported = mode === "replace" ? preview.valid.length + preview.duplicates.length : preview.valid.length;
+    setItems((prev) => window.DS.mergeImportedItems(prev, preview, mode));
+    return imported;
+  }, [items]);
 
   const resetSeed = useCallback(() => setItems(window.DS.buildSeed()), []);
   const clearAll = useCallback(() => setItems([]), []);

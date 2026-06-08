@@ -10,8 +10,15 @@ and this project intends to follow semantic versioning as it matures.
 ### Planned
 
 - Narrow-screen layout improvements
-- Safer JSON import preview and validation
 - Automated tests for domain and export logic
+
+## [0.1.4] - 2026-06-08
+
+### Added
+
+- Added a local backup preview with new, duplicate, and rejected item counts.
+- Added explicit merge and replace import modes with confirmation before replace.
+- Added validation for malformed backups while keeping legacy array exports importable.
 
 ## [0.1.3] - 2026-06-07
 
