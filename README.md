@@ -91,12 +91,17 @@ visual language:
 
 - Improve narrow-screen layout and navigation
 - Associate form labels and fields and strengthen keyboard focus behavior
-- Expand automated coverage for search, filters, validation, and exports
-- Add automated tests for search, filters, validation, and export generators
+- Keep expanding regression coverage as new domain helpers are added
 - Introduce an IndexedDB storage adapter with a safe migration path
 - Move the runtime to Vite and TypeScript after behavior is covered by tests
 
 See [ROADMAP.md](ROADMAP.md) for release milestones.
+
+Run the domain and UI regression suite with:
+
+```bash
+node --test tests/*.test.mjs
+```
 
 ## Font and asset licenses
 

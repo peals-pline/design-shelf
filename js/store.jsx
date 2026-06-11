@@ -80,15 +80,16 @@ function useStore() {
 
 // ---- Search / filter / sort -------------------------------------------------
 function matchesQuery(item, q) {
-  if (!q) return true;
+  const query = normalizeText(q).trim();
+  if (!query) return true;
   const hay = [
     item.title, item.description, item.notes, item.context, item.text, item.direction,
     item.audience, item.client, item.sourceUrl, item.whyItWorks, item.category, item.platform,
     (item.tags || []).join(" "),
     (item.colors || []).map((c) => `${c.name} ${c.hex}`).join(" "),
     (item.componentCategories || []).join(" "),
-  ].filter(Boolean).join(" ").toLowerCase();
-  return q.toLowerCase().split(/\s+/).every((tok) => hay.includes(tok));
+  ].filter(Boolean).map(normalizeText).join(" ");
+  return query.split(/\s+/).every((tok) => hay.includes(tok));
 }
 
 function filterItems(items, opts) {
@@ -108,7 +109,7 @@ function filterItems(items, opts) {
     title: (a, b) => a.title.localeCompare(b.title),
     type: (a, b) => a.type.localeCompare(b.type) || a.title.localeCompare(b.title),
   }[sort];
-  return out.sort(dir);
+  return out.sort(dir || ((a, b) => new Date(b.createdAt) - new Date(a.createdAt)));
 }
 
 function allTags(items) {
@@ -125,16 +126,34 @@ function countsByType(items) {
 }
 
 // ---- Exporters --------------------------------------------------------------
-function slugify(s) { return (s || "untitled").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""); }
+function normalizeText(value) {
+  return String(value || "")
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase();
+}
+
+function slugify(s, fallback = "untitled") {
+  return normalizeText(s).replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || fallback;
+}
+
+function paletteEntries(p) {
+  const counts = {};
+  return (p.colors || []).map((color, index) => {
+    const base = slugify(color.name, `color-${index + 1}`);
+    counts[base] = (counts[base] || 0) + 1;
+    return { ...color, key: counts[base] === 1 ? base : `${base}-${counts[base]}` };
+  });
+}
 
 function paletteToCSS(p) {
-  const lines = (p.colors || []).map((c) => `  --color-${slugify(c.name)}: ${c.hex};`);
+  const lines = paletteEntries(p).map((c) => `  --color-${c.key}: ${c.hex};`);
   return `/* ${p.title} — DesignShelf export */\n:root {\n${lines.join("\n")}\n}`;
 }
 
 function paletteToTokens(p) {
   const color = {};
-  (p.colors || []).forEach((c) => { color[slugify(c.name)] = { value: c.hex, type: "color" }; });
+  paletteEntries(p).forEach((c) => { color[c.key] = { value: c.hex, type: "color" }; });
   return JSON.stringify({ [slugify(p.title)]: { color } }, null, 2);
 }
 

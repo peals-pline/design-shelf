@@ -10,7 +10,21 @@ and this project intends to follow semantic versioning as it matures.
 ### Planned
 
 - Narrow-screen layout improvements
-- Automated tests for domain and export logic
+
+## [0.1.5] - 2026-06-11
+
+### Added
+
+- Added regression coverage for search, filters, validation, palette exports,
+  project-kit Markdown, and full JSON backups.
+- Documented the one-command local test workflow.
+
+### Fixed
+
+- Fixed searches such as `Sohne` not matching accented titles like `Söhne`.
+- Fixed duplicate or unnamed palette colors producing conflicting CSS variables
+  and design-token keys.
+- Added a safe fallback when an unknown sort value is restored from preferences.
 
 ## [0.1.4] - 2026-06-08
 
